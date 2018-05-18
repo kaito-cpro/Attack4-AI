@@ -227,11 +227,11 @@ int choose_number(){
     }
     printf("Please choose a number(1 ~ 7) : ");
     cin >> char_choose;
-    int_choose = choose-'0';
-    if (!(char_choose >= '0'+1 && char_choose <= '0'+7) || check_7_over(choose) == false){
+    choose = char_choose-'0';
+    if (!(char_choose >= '1' && char_choose <= '7') || check_7_over(choose) == false){
       printf("Error!\n");
     }
-  } while (!(char_choose >= '0'+1 && char_choose <= '0'+7) || check_7_over(choose) == false);
+  } while (!(char_choose >= '1' && char_choose <= '7') || check_7_over(choose) == false);
   return choose;
 }
 

@@ -43,12 +43,12 @@ void check_3_line_urge(int);
 void check_3_line();
 
 
-int v[9][9];  //0‚Æ8‚ÍüˆÍ‚Æ‚µ‚Ä—pˆÓ‚µ‚Ä‚¨‚­
+int v[9][9];  //0ã¨8ã¯å‘¨å›²ã¨ã—ã¦ç”¨æ„ã—ã¦ãŠã
 int v_cp[9][9];
-int ex[8] = {0};  //Šú‘Ò’l(exp[0]‚Íg‚í‚È‚¢)
+int ex[8] = {0};  //æœŸå¾…å€¤(exp[0]ã¯ä½¿ã‚ãªã„)
 int vd_1[9][9];
 int vd_2[9][9];
-int cnt_3_line_vd_1 = 0;  //ƒŠ[ƒ`‚Ì”
+int cnt_3_line_vd_1 = 0;  //ãƒªãƒ¼ãƒã®æ•°
 int cnt_3_line_vd_2 = 0;
 int player;
 int number_com;
@@ -75,7 +75,7 @@ enum f_c player_turn_computer(){
   printf(">>Player 2: Computer\n");
   printf("Please choose a number(1 ~ 7) : ");
   number_com = -1;
-  decide_com = false;  //number_com‚ªŒˆ‚Ü‚Á‚½‚çtrue‚É•Ï‚¦‚é
+  decide_com = false;  //number_comãŒæ±ºã¾ã£ãŸã‚‰trueã«å¤‰ãˆã‚‹
   check_3_line();
   if (decide_com == false){
     check_3_line_urge(2);
@@ -119,7 +119,7 @@ void expect(){
       }
     }
     check_3_line();
-    if (cnt_3_line_vd_1 >= 1){       ////ƒŠ[ƒ`‚ª‘‚¦‚éA‚Æ‚Ù‚ñ‚Æ‚Í‚·‚×‚«
+    if (cnt_3_line_vd_1 >= 1){       ////ãƒªãƒ¼ãƒãŒå¢—ãˆã‚‹ã€ã¨ã»ã‚“ã¨ã¯ã™ã¹ã
       for (int ii = 1; ii <= 7; ii++){
         for (int jj = 1; jj <= 7; jj++){
           if (vd_1[ii][jj] != 0 && check_put_able(ii, jj) == true && check_7_over(jj) == true){
@@ -183,13 +183,9 @@ void set_v(){
 
 
 void rand_rand(){
-  clock_t start = clock();
   printf("Please push Enter key...\n");
   cin.ignore();
-  clock_t end = clock();
-  for (int i = 0; i < (end - start) / 10; i++){
-    if (GetRandom(1, 7));
-  }
+  srand(time(NULL));
 }
 
 
@@ -222,6 +218,7 @@ void disp_board(){
 
 
 int choose_number(){
+  char char_choose;
   int choose;
   do {
     switch (player){
@@ -229,23 +226,24 @@ int choose_number(){
       case 2: printf(">>Player 2: Computer\n");  break;
     }
     printf("Please choose a number(1 ~ 7) : ");
-    cin >> choose;
-    if (!(choose >= 1 && choose <= 7) || check_7_over(choose) == false){
+    cin >> char_choose;
+    int_choose = choose-'0';
+    if (!(char_choose >= '0'+1 && char_choose <= '0'+7) || check_7_over(choose) == false){
       printf("Error!\n");
     }
-  } while (!(choose >= 1 && choose <= 7) || check_7_over(choose) == false);
+  } while (!(char_choose >= '0'+1 && char_choose <= '0'+7) || check_7_over(choose) == false);
   return choose;
 }
 
 
-//choose_number‚Å‘I‘ğ‚µ‚½—ñ‚ªŠù‚É7ŒÂ–„‚Ü‚Á‚Ä‚¢‚é‚Æ‚«‚Éfalse‚ğ•Ô‚·
+//choose_numberã§é¸æŠã—ãŸåˆ—ãŒæ—¢ã«7å€‹åŸ‹ã¾ã£ã¦ã„ã‚‹ã¨ãã«falseã‚’è¿”ã™
 bool check_7_over(int choose){
   if (v[1][choose] == Mark_1 || v[1][choose] == Mark_2) return false;
   else return true;
 }
 
 
-//4‚Â˜A‘±‚Ìƒ‰ƒCƒ“‚ªŠ®¬‚µ‚Ä‚¢‚ê‚Îtrue‚ğ•Ô‚·
+//4ã¤é€£ç¶šã®ãƒ©ã‚¤ãƒ³ãŒå®Œæˆã—ã¦ã„ã‚Œã°trueã‚’è¿”ã™
 bool check_4_line(){
   for (int i = 1; i <= 7; i++){
     for (int j = 1; j <= 4; j++){
@@ -269,7 +267,7 @@ bool check_4_line(){
 }
 
 
-//‘S‚Ä‚Ìƒ}ƒX‚ª–„‚Ü‚Á‚Ä‚¢‚ê‚Îtrue‚ğ•Ô‚·
+//å…¨ã¦ã®ãƒã‚¹ãŒåŸ‹ã¾ã£ã¦ã„ã‚Œã°trueã‚’è¿”ã™
 bool check_fulled(){
   for (int i = 1; i <= 7; i++){
     for (int j = 1; j <= 7; j++){
@@ -331,13 +329,13 @@ enum f_c after_choose_number(int number){
 }
 
 
-//GetRandom(a, b)‚ÅAa`b‚Ìƒ‰ƒ“ƒ_ƒ€’l‚ğ¶¬‚·‚é
+//GetRandom(a, b)ã§ã€aï½bã®ãƒ©ãƒ³ãƒ€ãƒ å€¤ã‚’ç”Ÿæˆã™ã‚‹
 int GetRandom(int min, int max){
 	return min + (int)(rand()*(max-min+1.0)/(1.0+RAND_MAX));
 }
 
 
-//v[i][j]‚Éput in‚Å‚«‚é‚È‚ç‚Îtrue‚ğ•Ô‚·
+//v[i][j]ã«put inã§ãã‚‹ãªã‚‰ã°trueã‚’è¿”ã™
 bool check_put_able(int i, int j){
   if (i >= 1 && i <= 6 && j >= 1 && j <= 7){
     if (v[i][j] != Mark_1 && v[i][j] != Mark_2 && (v[i+1][j] == Mark_1 || v[i+1][j] == Mark_2)){

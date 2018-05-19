@@ -218,20 +218,29 @@ void disp_board(){
 
 
 int choose_number(){
-  char char_choose;
+  char char_choose[50];
   int choose;
+  bool f = true;
   do {
     switch (player){
       case 1: printf(">>Player 1: You\n");  break;
       case 2: printf(">>Player 2: Computer\n");  break;
     }
     printf("Please choose a number(1 ~ 7) : ");
-    cin >> char_choose;
-    choose = char_choose-'0';
-    if (!(char_choose >= '1' && char_choose <= '7') || check_7_over(choose) == false){
+    cin.getline(char_choose, sizeof(char_choose));
+    if (strlen(char_choose) != 1){
       printf("Error!\n");
+      f = false;
+    } else {
+      choose = char_choose[0]-'0';
+      if (!(char_choose[0] >= '1' && char_choose[0] <= '7') || check_7_over(choose) == false){
+        printf("Error!\n");
+        f = false;
+      } else {
+        f = true;
+      }
     }
-  } while (!(char_choose >= '1' && char_choose <= '7') || check_7_over(choose) == false);
+  } while (f == false);
   return choose;
 }
 

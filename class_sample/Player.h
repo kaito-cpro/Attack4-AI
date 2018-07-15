@@ -8,5 +8,6 @@ class Player {
   public:
     Player();
     int get_color();
+    int select();
 };
 #endif

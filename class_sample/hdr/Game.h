@@ -1,9 +1,9 @@
 #ifndef _INC_GAME_
 #define _INC_GAME_
 #include <iostream>
-#include "Player.h"
-#include "Human.h"
-#include "AI.h"
+#include "player/Player.h"
+#include "player/Human.h"
+#include "player/AI.h"
 
 class Game {
   private:

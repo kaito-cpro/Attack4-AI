@@ -1,8 +1,8 @@
 #include <iostream>
 #include "Game.h"
-#include "Player.h"
-#include "Human.h"
-#include "AI.h"
+#include "player/Player.h"
+#include "player/Human.h"
+#include "player/AI.h"
 
 int main(void)
 {

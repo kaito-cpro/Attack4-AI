@@ -1,25 +1,31 @@
-#include "define.hpp"
-
-#include "Game.hpp"
-#include "Board.hpp"
-#include "Player.hpp"
-
-#include "Game.cpp"
-#include "Board.cpp"
-#include "Player.cpp"
-
-//クラスGame型オブジェクトの生成
-Game game;
-//クラスBoard型オブジェクトの生成
-Board board;
-
-//Playerクラスの派生クラス型オブジェクトの生成
-Human player0;
-AI player1;
-Random_AI player2;
-
+#include "../hdr/common.h"
+#include "../hdr/Game.h"
+#include "../hdr/Board.h"
+#include "../hdr/Player.h"
+#include "../hdr/player/Human.h"
+#include "../hdr/player/AI.h"
+#include "../hdr/player/Random_AI.h"
+#include "../hdr/Display.h"
+#include "../hdr/Record.h"
+#include "../hdr/Test.h"
 
 int main(){
-   game.play();
-   int winner = game.get_winner();
+   cout << " 1: Playing" << endl;
+   cout << " 2: Development" << endl;
+   cout << " 3: Learning" << endl;
+   switch (Input()){
+      case 1: {
+         Game game;
+         game.play();
+         break;
+      }
+      case 2:
+         Test test;
+         test.test();
+         break;
+      case 3:
+         break;
+      default:
+         cout << "Error! Invalid number." << endl;
+   }
 }

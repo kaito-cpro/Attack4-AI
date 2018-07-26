@@ -1,50 +1,109 @@
-#include "define.hpp"
-#include "Game.hpp"
-#include "Board.hpp"
-#include "Player.hpp"
-#include "extern.hpp"
+#include "../hdr/common.h"
+#include "../hdr/Game.h"
 
-Game::Game(){  //コンストラクタ
+Game::Game(){
+   F_or_L = FORMER;
 };
-void Game::disp_rule(){
-};
-void Game::decide_player(){
-   int p0, p1;
-   cout << "Please select players' type." << endl;
-   cout << " ~ Human: '0', AI: '1', Random_AI: '2' ~" << endl;
-   cout << "Player_A: " << endl;  cin >> p0;  valid_player[0] = p0;
-   cout << "Player_B: " << endl;  cin >> p1;  valid_player[1] = p1;
-};
-void change_player(){
-};
-void Game::disp_result(){
-};
-bool Game::is_end(){
-   return true;
-};
+
 void Game::play(){
-   Board::set_grid();
-   disp_rule();
+   clock_t start = clock();  //rand()を初期化する用
+   display.rule();
    decide_player();
-   Player* cur_player;  //Playerオブジェクトを指向するポインタ
-   switch (valid_player[0]){  //先攻を指向
-      case 0:
-         cur_player = &player0;
-         break;
-      case 1:
-         cur_player = &player1;
-         break;
-      case 2:
-         cur_player = &player2;
-         break;
-   }
-   while (is_end()==OK){
-      int x = cur_player->select();
-      cur_player->put_stone(x);
+   clock_t end = clock();
+   for (int i = 0; i < end-start; ++i) GetRandom_i(1, 7);  //rand()の初期化
+   point(valid_player[FORMER]);
+   cout << "  ---GAME START---" << endl << endl;
+   display.show(board);
+   while (!board.is_end()){
+      int x = pointer->select(board, F_or_L);
+      board.put(x, F_or_L);
+      display.show(board);
       change_player();
    }
-   disp_result();
+   set_winner();
+   show_result();
 };
-int Game::get_winner(){
-   return winner;
+
+void Game::show_board(){
+   display.show(board);
+};
+
+void Game::show_rule(){
+   display.rule();
+};
+
+void Game::decide_player(){
+   cout << "Please select players' type." << endl;
+   cout << "   1: Human" << endl;
+   cout << "   2: AI" << endl;
+   cout << "   3: Random_AI" << endl;
+   valid_player[FORMER] = valid_player[LATTER] = 0;
+   bool flg = OK;
+   do {
+      cout << ">Player_A: ";
+      int pA = Input();
+      valid_player[FORMER] = pA;
+      if (valid_player[FORMER]<=0 || valid_player[FORMER]>PLAYER_NUM){
+         cout << "Error! Invalid player." << endl;
+         flg = NG;
+      }
+      else flg = OK;
+   } while (flg==NG);
+   do {
+      cout << ">Player_B: ";
+      int pB = Input();
+      valid_player[LATTER] = pB;
+      if (valid_player[LATTER]<=0 || valid_player[LATTER]>PLAYER_NUM){
+         cout << "Error! Invalid player." << endl;
+         flg = NG;
+      }
+      else flg = OK;
+   } while (flg==NG);
+   cout << endl;
+   point(valid_player[FORMER]);
+};
+
+void Game::change_player(){
+   int type;  //次のターンのplayerタイプを取得
+   if (F_or_L==FORMER){
+      type = valid_player[LATTER];
+      F_or_L = LATTER;
+   }
+   else if (F_or_L==LATTER){
+      type = valid_player[FORMER];
+      F_or_L = FORMER;
+   }
+   point(type);
+};
+
+void Game::set_winner(){
+   if (board.is_4()){
+      change_player();
+      record.set_winner(F_or_L, valid_player[F_or_L]);
+   }
+   else {
+      record.set_winner(F_or_L, 0);  //ドローの場合
+   }
+};
+
+void Game::show_result(){
+   display.result(record);
+};
+
+void Game::point(int i){
+	switch (i){
+		case 1:
+			pointer = &player1;
+			break;
+		case 2:
+			pointer = &player2;
+			break;
+		case 3:
+			pointer = &player3;
+			break;
+	}
+};
+
+P Game::get_winner(){
+   return record.get_winner();
 };
